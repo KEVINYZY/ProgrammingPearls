@@ -25,6 +25,17 @@ int* createRandomArray(int len,int max);
 int* createRandomArray_noRepeat(int len,int min,int max);
 
 /**
+ * 生成随机数列，并指定不出现的数字
+ * @param len 生成数列长度
+ * @param min 最小值
+ * @param max 最大值
+ * @param unexisted_ints 不出现的数字数组
+ * @param ulen unexisted_ints数组的长度
+ * @return
+ */
+int* createRandomArray_set_unexisted(int len,int min,int max,int* unexisted_ints,int ulen);
+
+/**
  * 创建随即数组到文件
  * @param len
  * @param min

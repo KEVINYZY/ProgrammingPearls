@@ -42,6 +42,53 @@ int* createRandomArray_noRepeat(int len,int min,int max){
     return num;
 }
 
+int* createRandomArray_set_unexisted(int len,int min,int max,int* unexisted_ints,int ulen){
+
+    srand((int)time(0));
+    int rangeSize = max-min+1;
+    int *num = new int[rangeSize];
+    int *temp = new int[rangeSize];
+    for(int i=0;i<rangeSize;i++)
+        temp[i] = min+i;
+
+    srand((int)time(0));
+    for(int i=0;i<ulen;i++){ //去除不出现的数字
+        int a = unexisted_ints[i];
+        if(a<=max&&a>=min){
+            int random = rand() % (max - min + 1) + min;
+            int flag = false;
+            int count = 0;
+            while(!flag){
+                count=0;
+                for(int k=0;k<ulen;k++){
+                    if(random!=unexisted_ints[k])
+                        count++;
+                }
+                if(count==ulen)
+                    flag = true;
+                else
+                    random = rand() % (max - min + 1) + min;
+            }
+            temp[a-min] = random;
+        }
+    }
+
+    for(int i=0;i<rangeSize;i++){
+        int a = rand()%rangeSize;
+        int b = rand()%rangeSize;
+        swap(&temp[a],&temp[b]);
+    }
+    int i;
+    for(i=0;i<rangeSize;i++)
+        num[i] = temp[i];
+    //超出范围，最后都用0补充
+    for(;i<len;i++)
+        num[i] = 0;
+
+    ///delete []temp;        //出错？？？？
+    return num;
+}
+
 void createRandomArrayToFile(int len,int min,int max,std::string output_filename){
     srand((int)time(0));
     FILE *fp_output_file = fopen(output_filename.data(),"w");
