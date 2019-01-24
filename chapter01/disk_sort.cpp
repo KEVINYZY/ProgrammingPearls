@@ -15,7 +15,7 @@
  *
  * 时间对比(总时间)：
  * qsort     set<int>    bit      bitset    严格限制1M(两趟排序)
- * 3.98841s  28.2615s  1.97697s  2.35041s     1.62983s
+ * 3.98841s  28.2615s  1.97697s  2.35041s     4.26004s
  */
 #include "catch.h"
 #include "Tools.h"
@@ -220,7 +220,7 @@ TEST_CASE("bitset"){
  * 通过两次排序，第一次读取0～5*10^3-1之间的树，第二次读取5*10^3-1～10^7 之间的数
  *
  * 时间：
- * Total time:1.62983s
+ * Total time:4.26004s
  */
 #ifdef DIST_SORT_1M
 
@@ -262,6 +262,10 @@ TEST_CASE("bitsort 1M"){
                 }
 
                 //第二趟排序
+                //文件指针重新定位到开头
+                int result = fseek(fin,0,SEEK_SET);
+                assert(!result);
+
                 for(int i=0;i<N/2;i++) //N/2
                         bit_clr(i);
                 for(int i=0;i<N&&(fscanf(fin,"%d",&temp)!=EOF);i++) {
